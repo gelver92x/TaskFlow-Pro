@@ -1,0 +1,52 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>{{ 'tasks.title' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      @if (pendingCount > 0) {
+        <ion-badge color="primary" class="pending-badge">
+          {{ pendingCount }} {{ 'tasks.pending' | translate }}
+        </ion-badge>
+      }
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar [placeholder]="'tasks.search' | translate" [debounce]="300"
+      (ionInput)="onSearchChange($any($event))"></ion-searchbar>
+  </ion-toolbar>
+  @if (categories$ | async; as categories) {
+    @if (categories.length > 0) {
+      <ion-toolbar class="segment-toolbar">
+        <ion-segment [value]="selectedCategoryId" (ionChange)="onCategoryFilter($any($event))" [scrollable]="true">
+          <ion-segment-button value="all"><ion-label>{{ 'tasks.all' | translate }}</ion-label></ion-segment-button>
+          @for (cat of categories; track cat.id) {
+            <ion-segment-button [value]="cat.id"><ion-label>{{ cat.name }}</ion-label></ion-segment-button>
+          }
+        </ion-segment>
+      </ion-toolbar>
+    }
+  }
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($any($event))">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  @if (filteredTasks$ | async; as tasks) {
+    @if (tasks.length > 0) {
+      <ion-list class="task-list" lines="none">
+        @for (task of tasks; track task.id) {
+          <app-task-item [task]="task" (toggleComplete)="onToggleComplete($event)" (deleteTask)="onDeleteTask($event)"></app-task-item>
+        }
+      </ion-list>
+    } @else {
+      <div class="empty-state">
+        <ion-icon name="checkmark-done-outline" class="empty-state-icon"></ion-icon>
+        <ion-text><h2>{{ 'tasks.noTasks' | translate }}</h2><p>{{ 'tasks.createFirst' | translate }}</p></ion-text>
+      </div>
+    }
+  }
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openAddTaskModal()" [attr.aria-label]="'tasks.addTask' | translate">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

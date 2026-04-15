@@ -1,0 +1,18 @@
+<ion-item-sliding>
+  <ion-item [ngClass]="{ 'task-completed': task.completed }">
+    <div class="priority-indicator" [ngStyle]="{ 'background-color': getPriorityColor() }" slot="start"></div>
+    <ion-checkbox slot="start" [checked]="task.completed" (ionChange)="onToggle()" [aria-label]="'Alternar ' + task.title"></ion-checkbox>
+    <ion-label>
+      <h2 [ngClass]="{ 'text-strikethrough': task.completed }">{{ task.title }}</h2>
+      <div class="task-meta">
+        @if (getCategoryName(); as catName) {
+          <ion-badge class="category-badge" [ngStyle]="{ 'background-color': getCategoryColor() }">{{ catName }}</ion-badge>
+        }
+        <ion-note color="medium">{{ getRelativeTime() }}</ion-note>
+      </div>
+    </ion-label>
+  </ion-item>
+  <ion-item-options side="end">
+    <ion-item-option color="danger" (click)="onDelete()"><ion-icon slot="icon-only" name="trash-outline"></ion-icon></ion-item-option>
+  </ion-item-options>
+</ion-item-sliding>
