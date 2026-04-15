@@ -1,0 +1,9 @@
+<ion-header [translucent]="true"><ion-toolbar><ion-title>{{ 'settings.title' | translate }}</ion-title></ion-toolbar></ion-header>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense"><ion-toolbar><ion-title size="large">{{ 'settings.title' | translate }}</ion-title></ion-toolbar></ion-header>
+  <ion-list>
+    <ion-item><ion-icon name="language-outline" slot="start"></ion-icon><ion-select [value]="currentLang" [label]="'settings.language' | translate" (ionChange)="changeLanguage($any($event))" interface="popover"><ion-select-option value="en">English</ion-select-option><ion-select-option value="es">Español</ion-select-option></ion-select></ion-item>
+    <ion-item><ion-icon name="color-palette-outline" slot="start"></ion-icon><ion-select [value]="currentTheme" [label]="'settings.theme' | translate" (ionChange)="changeTheme($any($event))" interface="popover"><ion-select-option value="system">{{ 'settings.system' | translate }}</ion-select-option><ion-select-option value="light">{{ 'settings.light' | translate }}</ion-select-option><ion-select-option value="dark">{{ 'settings.dark' | translate }}</ion-select-option></ion-select></ion-item>
+  </ion-list>
+  <ion-list><ion-item><ion-icon name="information-circle-outline" slot="start"></ion-icon><ion-label><h2>TaskFlow</h2><ion-note>v1.0.0 — Ionic 8 + Angular 20 + Capacitor 8</ion-note></ion-label></ion-item></ion-list>
+</ion-content>
