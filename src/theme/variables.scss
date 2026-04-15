@@ -1,0 +1,127 @@
+/**
+ * TaskFlow Theme Variables
+ *
+ * Ionic uses CSS custom properties (variables) for theming.
+ * This file defines the color palette, typography, and platform-specific
+ * overrides for the entire application.
+ *
+ * Color Palette:
+ * - Primary: Indigo (#6366F1) — vibrant, modern, professional
+ * - Secondary: Cyan (#06B6D4) — complementary accent
+ * - Success: Green (#22C55E) — positive actions
+ * - Danger: Red (#EF4444) — destructive actions
+ *
+ * @see https://ionicframework.com/docs/theming/color-generator
+ */
+
+:root {
+  /* ── Primary: Indigo ── */
+  --ion-color-primary: #6366f1;
+  --ion-color-primary-rgb: 99, 102, 241;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #5558d6;
+  --ion-color-primary-tint: #7375f2;
+
+  /* ── Secondary: Cyan ── */
+  --ion-color-secondary: #06b6d4;
+  --ion-color-secondary-rgb: 6, 182, 212;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #05a0bb;
+  --ion-color-secondary-tint: #1fbdd8;
+
+  /* ── Tertiary: Violet ── */
+  --ion-color-tertiary: #8b5cf6;
+  --ion-color-tertiary-rgb: 139, 92, 246;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #7a51d8;
+  --ion-color-tertiary-tint: #976cf7;
+
+  /* ── Success: Green ── */
+  --ion-color-success: #22c55e;
+  --ion-color-success-rgb: 34, 197, 94;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #1ead53;
+  --ion-color-success-tint: #38cb6e;
+
+  /* ── Warning: Amber ── */
+  --ion-color-warning: #f59e0b;
+  --ion-color-warning-rgb: 245, 158, 11;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #d88b0a;
+  --ion-color-warning-tint: #f6a823;
+
+  /* ── Danger: Red ── */
+  --ion-color-danger: #ef4444;
+  --ion-color-danger-rgb: 239, 68, 68;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #d23c3c;
+  --ion-color-danger-tint: #f15757;
+
+  /* ── Medium: Gray ── */
+  --ion-color-medium: #94a3b8;
+  --ion-color-medium-rgb: 148, 163, 184;
+  --ion-color-medium-contrast: #000000;
+  --ion-color-medium-contrast-rgb: 0, 0, 0;
+  --ion-color-medium-shade: #828fa2;
+  --ion-color-medium-tint: #9facbf;
+
+  /* ── Light ── */
+  --ion-color-light: #f1f5f9;
+  --ion-color-light-rgb: 241, 245, 249;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #d4d8db;
+  --ion-color-light-tint: #f2f6fa;
+
+  /* ── Typography ── */
+  --ion-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/**
+ * Dark Mode Theme
+ *
+ * Activated automatically when the user's system preference is dark mode.
+ * Uses a Slate color palette for backgrounds with high-contrast text.
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-background-color: #0f172a;
+    --ion-background-color-rgb: 15, 23, 42;
+
+    --ion-text-color: #f1f5f9;
+    --ion-text-color-rgb: 241, 245, 249;
+
+    --ion-card-background: #1e293b;
+    --ion-item-background: #1e293b;
+    --ion-toolbar-background: #0f172a;
+    --ion-tab-bar-background: #0f172a;
+
+    /* Step colors for Ionic's internal color calculations */
+    --ion-color-step-50: #1a2332;
+    --ion-color-step-100: #1e293b;
+    --ion-color-step-150: #253244;
+    --ion-color-step-200: #2d3b4d;
+    --ion-color-step-250: #354456;
+    --ion-color-step-300: #3d4d5f;
+    --ion-color-step-350: #455668;
+    --ion-color-step-400: #4d5f71;
+    --ion-color-step-450: #55687a;
+    --ion-color-step-500: #5d7183;
+    --ion-color-step-550: #657a8c;
+    --ion-color-step-600: #6d8395;
+    --ion-color-step-650: #758c9e;
+    --ion-color-step-700: #7d95a7;
+    --ion-color-step-750: #859eb0;
+    --ion-color-step-800: #8da7b9;
+    --ion-color-step-850: #95b0c2;
+    --ion-color-step-900: #9db9cb;
+    --ion-color-step-950: #a5c2d4;
+  }
+}

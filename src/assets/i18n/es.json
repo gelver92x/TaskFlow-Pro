@@ -1,0 +1,20 @@
+{
+  "home": {
+    "title": "TaskFlow",
+    "addTask": "Agregar Tarea",
+    "noTasks": "¡Sin tareas aún!",
+    "createFirst": "Toca el botón + para crear tu primera tarea",
+    "pending": "pendientes",
+    "delete": "Eliminar",
+    "deleteConfirm": "¿Estás seguro de que quieres eliminar esta tarea?",
+    "deleteTitle": "Eliminar Tarea"
+  },
+  "modal": {
+    "newTask": "Nueva Tarea",
+    "taskTitle": "Título de la tarea",
+    "taskPlaceholder": "¿Qué necesitas hacer?",
+    "titleRequired": "Por favor ingresa un título para la tarea",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  }
+}
