@@ -1,0 +1,24 @@
+<!-- Task item with swipe-to-delete functionality -->
+<ion-item-sliding>
+  <!-- Main task item -->
+  <ion-item [ngClass]="{ 'task-completed': task.completed }">
+    <ion-checkbox
+      slot="start"
+      [checked]="task.completed"
+      (ionChange)="onToggle()"
+      [aria-label]="'Toggle ' + task.title">
+    </ion-checkbox>
+
+    <ion-label>
+      <h2 [ngClass]="{ 'text-strikethrough': task.completed }">{{ task.title }}</h2>
+      <ion-note color="medium">{{ getRelativeTime() }}</ion-note>
+    </ion-label>
+  </ion-item>
+
+  <!-- Swipe-left: Delete action -->
+  <ion-item-options side="end">
+    <ion-item-option color="danger" (click)="onDelete()">
+      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+    </ion-item-option>
+  </ion-item-options>
+</ion-item-sliding>
