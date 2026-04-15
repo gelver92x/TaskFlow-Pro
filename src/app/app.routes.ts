@@ -1,13 +1,22 @@
 import { Routes } from '@angular/router';
 
+/**
+ * Rutas principales de la aplicación.
+ *
+ * Usa un layout de pestañas (tabs) como contenedor principal.
+ * Las rutas hijas se definen en tabs.routes.ts con lazy loading.
+ */
 export const routes: Routes = [
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    path: 'tabs',
+    loadComponent: () =>
+      import('./tabs/tabs.page').then((m) => m.TabsPage),
+    loadChildren: () =>
+      import('./tabs/tabs.routes').then((m) => m.tabsRoutes),
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'tabs',
     pathMatch: 'full',
   },
 ];
