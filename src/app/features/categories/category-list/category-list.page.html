@@ -1,0 +1,27 @@
+<ion-header [translucent]="true"><ion-toolbar><ion-title>{{ 'categories.title' | translate }}</ion-title></ion-toolbar></ion-header>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense"><ion-toolbar><ion-title size="large">{{ 'categories.title' | translate }}</ion-title></ion-toolbar></ion-header>
+  @if (categories$ | async; as categories) {
+    @if (categories.length > 0) {
+      <ion-list class="category-list">
+        @for (category of categories; track category.id) {
+          <ion-item-sliding>
+            <ion-item>
+              <div class="category-color-dot" [ngStyle]="{ 'background-color': category.color }" slot="start"></div>
+              <ion-icon [name]="category.icon" slot="start" [ngStyle]="{ color: category.color }"></ion-icon>
+              <ion-label><h2>{{ category.name }}</h2></ion-label>
+              <ion-badge slot="end" color="light">{{ getTaskCount(category.id) }}</ion-badge>
+            </ion-item>
+            <ion-item-options side="end">
+              <ion-item-option color="primary" (click)="openEditModal(category)"><ion-icon slot="icon-only" name="create-outline"></ion-icon></ion-item-option>
+              <ion-item-option color="danger" (click)="onDelete(category)"><ion-icon slot="icon-only" name="trash-outline"></ion-icon></ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        }
+      </ion-list>
+    } @else {
+      <div class="empty-state"><ion-icon name="pricetags-outline" class="empty-state-icon"></ion-icon><ion-text><h2>{{ 'categories.noCategories' | translate }}</h2><p>{{ 'categories.createFirst' | translate }}</p></ion-text></div>
+    }
+  }
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end"><ion-fab-button (click)="openAddModal()" [attr.aria-label]="'categories.add' | translate"><ion-icon name="add-outline"></ion-icon></ion-fab-button></ion-fab>
+</ion-content>

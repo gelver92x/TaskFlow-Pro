@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start"><ion-button (click)="cancel()" color="medium">{{ 'modal.cancel' | translate }}</ion-button></ion-buttons>
+    <ion-title>{{ (isEditing ? 'categories.edit' : 'categories.new') | translate }}</ion-title>
+    <ion-buttons slot="end"><ion-button (click)="save()" [strong]="true" color="primary">{{ 'modal.save' | translate }}</ion-button></ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-list><ion-item><ion-input [(ngModel)]="categoryName" [label]="'categories.name' | translate" labelPlacement="floating" type="text" [maxlength]="50" [placeholder]="'categories.namePlaceholder' | translate" [autofocus]="true"></ion-input></ion-item></ion-list>
+  <ion-label class="section-label">{{ 'categories.color' | translate }}</ion-label>
+  <div class="color-grid">@for (color of colorOptions; track color) { <button class="color-option" [ngStyle]="{ 'background-color': color }" [class.selected]="selectedColor === color" (click)="selectColor(color)"></button> }</div>
+  <ion-label class="section-label">{{ 'categories.icon' | translate }}</ion-label>
+  <div class="icon-grid">@for (icon of iconOptions; track icon) { <button class="icon-option" [class.selected]="selectedIcon === icon" (click)="selectIcon(icon)"><ion-icon [name]="icon" [ngStyle]="{ color: selectedIcon === icon ? selectedColor : 'var(--ion-text-color)' }"></ion-icon></button> }</div>
+  <div class="preview">
+    <ion-label class="section-label">{{ 'categories.preview' | translate }}</ion-label>
+    <ion-item lines="none" class="preview-item"><div class="category-color-dot" [ngStyle]="{ 'background-color': selectedColor }"></div><ion-icon [name]="selectedIcon" [ngStyle]="{ color: selectedColor }" slot="start"></ion-icon><ion-label>{{ categoryName || '...' }}</ion-label></ion-item>
+  </div>
+  @if (submitted && !categoryName.trim()) { <ion-text color="danger"><p class="validation-error">{{ 'categories.nameRequired' | translate }}</p></ion-text> }
+</ion-content>
