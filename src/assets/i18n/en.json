@@ -1,6 +1,8 @@
 {
-  "home": {
+  "tasks": {
     "title": "TaskFlow",
+    "search": "Search tasks...",
+    "all": "ALL",
     "addTask": "Add Task",
     "noTasks": "No tasks yet!",
     "createFirst": "Tap the + button to create your first task",
@@ -9,10 +11,50 @@
     "deleteConfirm": "Are you sure you want to delete this task?",
     "deleteTitle": "Delete Task"
   },
+  "categories": {
+    "title": "Categories",
+    "add": "Add category",
+    "new": "New Category",
+    "edit": "Edit Category",
+    "name": "Name",
+    "namePlaceholder": "Category name",
+    "nameRequired": "Please enter a category name",
+    "color": "Color",
+    "icon": "Icon",
+    "preview": "Preview",
+    "delete": "Delete",
+    "deleteTitle": "Delete Category",
+    "deleteConfirm": "Delete category \"{{name}}\"?",
+    "tasksWillUnlink": "{{count}} task(s) will be unlinked.",
+    "noCategories": "No categories",
+    "createFirst": "Create categories to organize your tasks"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "tabs": {
+    "tasks": "Tasks",
+    "categories": "Categories",
+    "settings": "Settings"
+  },
   "modal": {
     "newTask": "New Task",
     "taskTitle": "Task title",
     "taskPlaceholder": "What do you need to do?",
+    "description": "Description",
+    "descriptionPlaceholder": "Additional details (optional)",
+    "category": "Category",
+    "selectCategory": "Select category",
+    "noCategory": "No category",
+    "priority": "Priority",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
     "titleRequired": "Please enter a task title",
     "save": "Save",
     "cancel": "Cancel"

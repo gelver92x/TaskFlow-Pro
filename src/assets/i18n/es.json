@@ -1,6 +1,8 @@
 {
-  "home": {
+  "tasks": {
     "title": "TaskFlow",
+    "search": "Buscar tareas...",
+    "all": "TODAS",
     "addTask": "Agregar Tarea",
     "noTasks": "¡Sin tareas aún!",
     "createFirst": "Toca el botón + para crear tu primera tarea",
@@ -9,10 +11,50 @@
     "deleteConfirm": "¿Estás seguro de que quieres eliminar esta tarea?",
     "deleteTitle": "Eliminar Tarea"
   },
+  "categories": {
+    "title": "Categorías",
+    "add": "Agregar categoría",
+    "new": "Nueva Categoría",
+    "edit": "Editar Categoría",
+    "name": "Nombre",
+    "namePlaceholder": "Nombre de la categoría",
+    "nameRequired": "Por favor ingresa un nombre para la categoría",
+    "color": "Color",
+    "icon": "Icono",
+    "preview": "Vista previa",
+    "delete": "Eliminar",
+    "deleteTitle": "Eliminar Categoría",
+    "deleteConfirm": "¿Eliminar la categoría \"{{name}}\"?",
+    "tasksWillUnlink": "{{count}} tarea(s) serán desvinculadas.",
+    "noCategories": "Sin categorías",
+    "createFirst": "Crea categorías para organizar tus tareas"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "language": "Idioma",
+    "theme": "Tema",
+    "system": "Sistema",
+    "light": "Claro",
+    "dark": "Oscuro"
+  },
+  "tabs": {
+    "tasks": "Tareas",
+    "categories": "Categorías",
+    "settings": "Ajustes"
+  },
   "modal": {
     "newTask": "Nueva Tarea",
     "taskTitle": "Título de la tarea",
     "taskPlaceholder": "¿Qué necesitas hacer?",
+    "description": "Descripción",
+    "descriptionPlaceholder": "Detalles adicionales (opcional)",
+    "category": "Categoría",
+    "selectCategory": "Seleccionar categoría",
+    "noCategory": "Sin categoría",
+    "priority": "Prioridad",
+    "low": "Baja",
+    "medium": "Media",
+    "high": "Alta",
     "titleRequired": "Por favor ingresa un título para la tarea",
     "save": "Guardar",
     "cancel": "Cancelar"
