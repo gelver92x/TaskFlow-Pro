@@ -1,33 +1,36 @@
 /**
- * Task model — Represents a single to-do item in the application.
+ * Tipo de prioridad de una tarea.
+ */
+export type TaskPriority = 'low' | 'medium' | 'high';
+
+/**
+ * Modelo Task — Representa una tarea en la aplicación.
  *
- * This interface defines the shape of task data that is persisted
- * in device storage via @capacitor/preferences through the StorageService.
- *
- * @example
- * ```typescript
- * const task: Task = {
- *   id: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
- *   title: 'Buy groceries',
- *   completed: false,
- *   createdAt: '2026-04-15T12:00:00.000Z',
- *   updatedAt: '2026-04-15T12:00:00.000Z',
- * };
- * ```
+ * Incluye campos extendidos para soporte de categorías y prioridad.
+ * Se persiste en @capacitor/preferences a través del StorageService.
  */
 export interface Task {
-  /** Unique identifier generated with crypto.randomUUID() */
+  /** Identificador único generado con crypto.randomUUID() */
   id: string;
 
-  /** Title of the task (required, max 100 characters) */
+  /** Título de la tarea (requerido, máx. 100 caracteres) */
   title: string;
 
-  /** Whether the task has been marked as completed */
+  /** Descripción detallada opcional (máx. 500 caracteres) */
+  description?: string;
+
+  /** Si la tarea está marcada como completada */
   completed: boolean;
 
-  /** ISO 8601 timestamp of when the task was created */
+  /** ID de la categoría asignada (null = sin categoría) */
+  categoryId: string | null;
+
+  /** Nivel de prioridad de la tarea */
+  priority: TaskPriority;
+
+  /** Timestamp ISO 8601 de cuándo se creó la tarea */
   createdAt: string;
 
-  /** ISO 8601 timestamp of the last update to the task */
+  /** Timestamp ISO 8601 de la última actualización */
   updatedAt: string;
 }
