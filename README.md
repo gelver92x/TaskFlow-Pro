@@ -1,6 +1,6 @@
 # TaskFlow 📋 — Versión Extendida
 
-Aplicación móvil de gestión de tareas con categorías, búsqueda avanzada y feature flags, construida con **Ionic 8**, **Angular 20**, **Capacitor 8** y **Firebase Remote Config**.
+Aplicación móvil de gestión de tareas con categorías, búsqueda avanzada y feature flags, construida con **Ionic 8**, **Angular 20**, **Cordova** y **Firebase Remote Config**.
 
 Esta es la versión extendida (fork) que agrega funcionalidades avanzadas sobre la [app base](https://github.com/gelver92x/TaskFlow-Ionic/tree/main).
 
@@ -35,8 +35,9 @@ Esta es la versión extendida (fork) que agrega funcionalidades avanzadas sobre 
 - ✅ **Navegación por tabs** — ion-tabs con ion-tab-bar (Tareas, Categorías, Ajustes)
 - ✅ **i18n** — Inglés y español (detección automática + selector manual)
 - ✅ **Modo oscuro** — Automático + selector en ajustes (Sistema/Claro/Oscuro)
-- ✅ **Almacenamiento nativo** — @capacitor/preferences (nunca localStorage)
+- ✅ **Almacenamiento nativo** — NativeStorage (SharedPreferences / UserDefaults) con fallback a localStorage
 - ✅ **Componentes standalone** — Sin NgModules, imports individuales de Ionic
+- ✅ **Compilación nativa** — Cordova para generar APK (Android) e IPA (iOS)
 
 ## Stack Tecnológico
 
@@ -44,9 +45,9 @@ Esta es la versión extendida (fork) que agrega funcionalidades avanzadas sobre 
 |---|---|---|
 | [Ionic Framework](https://ionicframework.com/) | 8.x | Componentes UI móviles |
 | [Angular](https://angular.dev/) | 20.x | Framework frontend |
-| [Capacitor](https://capacitorjs.com/) | 8.x | Runtime nativo |
+| [Cordova](https://cordova.apache.org/) | 13.x (Android) / 7.x (iOS) | Motor de compilación nativa |
 | [Firebase](https://firebase.google.com/) | 11.x | Remote Config / Feature Flags |
-| [@capacitor/preferences](https://capacitorjs.com/docs/apis/preferences) | 8.x | Almacenamiento clave-valor |
+| [cordova-plugin-nativestorage](https://github.com/nicovank/NativeStorage) | 2.x | Almacenamiento nativo persistente |
 | [@ngx-translate/core](https://github.com/ngx-translate/core) | 17.x | Internacionalización |
 | [TypeScript](https://www.typescriptlang.org/) | 5.9 | JavaScript con tipado seguro |
 
@@ -73,24 +74,12 @@ src/
 │   │   │   │   └── task-list.page.scss
 │   │   │   └── components/
 │   │   │       ├── task-item/          # Componente de tarea individual
-│   │   │       │   ├── task-item.component.ts
-│   │   │       │   ├── task-item.component.html
-│   │   │       │   └── task-item.component.scss
 │   │   │       └── task-form-modal/    # Modal de creación de tareas
-│   │   │           ├── task-form-modal.component.ts
-│   │   │           ├── task-form-modal.component.html
-│   │   │           └── task-form-modal.component.scss
 │   │   │
 │   │   ├── categories/
 │   │   │   ├── category-list/          # Página de categorías
-│   │   │   │   ├── category-list.page.ts
-│   │   │   │   ├── category-list.page.html
-│   │   │   │   └── category-list.page.scss
 │   │   │   └── components/
 │   │   │       └── category-form-modal/  # Modal con color/icon picker
-│   │   │           ├── category-form-modal.component.ts
-│   │   │           ├── category-form-modal.component.html
-│   │   │           └── category-form-modal.component.scss
 │   │   │
 │   │   └── settings/                   # Página de ajustes
 │   │       ├── settings.page.ts
@@ -98,7 +87,7 @@ src/
 │   │       └── settings.page.scss
 │   │
 │   ├── services/
-│   │   ├── storage.service.ts          # Wrapper sobre @capacitor/preferences
+│   │   ├── storage.service.ts          # NativeStorage (nativo) + localStorage (web)
 │   │   ├── task.service.ts             # CRUD tareas + filtro categoría
 │   │   ├── category.service.ts         # CRUD categorías + seed
 │   │   └── feature-flag.service.ts     # Firebase Remote Config
@@ -120,6 +109,9 @@ src/
 ├── global.scss                         # Estilos globales + Inter font
 ├── main.ts                             # Bootstrap con providers
 └── index.html                          # HTML de entrada
+
+config.xml                              # Configuración Cordova (plugins, plataformas)
+ionic.config.json                       # Configuración Ionic (integración Cordova)
 ```
 
 ## Modelos de Datos
@@ -165,22 +157,27 @@ interface FeatureFlagConfig {
 
 - **Node.js** >= 18.x
 - **npm** >= 9.x
+- **Cordova CLI** (`npm install -g cordova`)
 - **Ionic CLI** (opcional, vía npx)
 
 Para compilación nativa:
-- **Android Studio** + Android SDK 34+ (para Android)
-- **Xcode** 15+ (para iOS — solo macOS)
+- **Android Studio** + Android SDK 34+ + Build Tools (para Android)
+- **Xcode** 15+ + CocoaPods (para iOS — solo macOS)
+- **Java JDK** 17+
 
 ## Instalación
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/gelver92x/TaskFlow-Ionic.git
-cd TaskFlow-Ionic
-git checkout feature/categories-firebase
+git clone https://github.com/gelver92x/TaskFlow-Pro.git
+cd TaskFlow-Pro
 
 # Instalar dependencias
 npm install
+
+# Agregar plataformas Cordova
+cordova platform add android
+cordova platform add ios    # Solo en macOS
 ```
 
 ## Configuración de Firebase
@@ -250,62 +247,73 @@ npx ionic serve
 # Compilar assets web
 npx ng build --configuration production
 
-# Agregar plataforma Android (primera vez)
-npx cap add android
+# Compilar APK de debug
+cordova build android
 
-# Sincronizar assets con el proyecto nativo
-npx cap sync android
-
-# Abrir en Android Studio
-npx cap open android
+# El APK se genera en:
+# platforms/android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
-En Android Studio:
-1. Espera a que Gradle sincronice el proyecto
-2. Selecciona un dispositivo/emulador
-3. Haz clic en **Run** (▶)
+Para compilar en **Android Studio**:
+1. Abre `platforms/android` como proyecto
+2. Espera a que Gradle sincronice
+3. Selecciona un dispositivo/emulador
+4. Haz clic en **Run** (▶)
 
 ### iOS (solo macOS)
 
 ```bash
+# Compilar assets web
 npx ng build --configuration production
-npx cap add ios
-npx cap sync ios
-npx cap open ios
+
+# Compilar proyecto iOS
+cordova build ios
+
+# Abrir en Xcode
+open platforms/ios/TaskFlow.xcworkspace
 ```
 
 En Xcode:
 1. Selecciona un simulador o dispositivo
-2. Haz clic en **Run** (▶)
+2. Configura el equipo de firma (Signing & Capabilities)
+3. Haz clic en **Run** (▶)
 
-### Generar APK (Android)
+### Generar APK firmado (Release)
 
 ```bash
-# Compilar y sincronizar
+# Build de producción
 npx ng build --configuration production
-npx cap sync android
 
-# En Android Studio:
-# Build > Generate Signed Bundle / APK > APK
-# Selecciona tu keystore o crea uno nuevo
-# Selecciona release, firma y genera
+# APK release (requiere keystore)
+cordova build android --release -- --keystore=taskflow.keystore --alias=taskflow
+
+# El APK firmado se genera en:
+# platforms/android/app/build/outputs/apk/release/app-release.apk
 ```
 
-El APK firmado se encontrará en:
-`android/app/release/app-release.apk`
+### Generar IPA (solo macOS)
+
+```bash
+npx ng build --configuration production
+cordova build ios --release
+
+# Abrir en Xcode para archivo:
+# Product > Archive > Distribute App
+```
 
 ## Decisiones de Arquitectura
 
 | Decisión | Justificación |
 |---|---|
-| **Standalone Components** | Angular 17+ best practice, eliminando NgModules |
-| **@capacitor/preferences** | Reemplazo obligatorio de localStorage para cross-platform |
+| **Standalone Components** | Angular 17+ best practice, maximiza tree-shaking eliminando NgModules |
+| **NativeStorage** | Almacenamiento persistente vía plugin Cordova con SharedPreferences (Android) y UserDefaults (iOS) |
 | **Feature-based structure** | Carpetas por funcionalidad (tasks/, categories/, settings/) |
-| **ion-tabs + ion-tab-bar** | Obligatorio según skill ionic-skills |
-| **BehaviorSubject** | Flujo reactivo con limpieza automática via async pipe |
+| **ion-tabs + ion-tab-bar** | Patrón de navegación nativo estándar en iOS y Android |
+| **BehaviorSubject** | Flujo reactivo con limpieza automática vía async pipe |
 | **Firebase Remote Config** | Feature flags sin publicar nuevas versiones |
 | **TranslateHttpLoader** | i18n lazy-loaded desde archivos JSON |
 | **Lazy loading por ruta** | Cada pestaña es un chunk separado |
+| **Cordova** | Motor de compilación nativa requerido para generar APK e IPA |
 
 ## Scripts Disponibles
 
@@ -315,6 +323,8 @@ El APK firmado se encontrará en:
 | `npm run build` | Compilar para producción |
 | `npm test` | Ejecutar tests unitarios |
 | `npm run lint` | Ejecutar ESLint |
+| `cordova build android` | Compilar APK para Android |
+| `cordova build ios` | Compilar proyecto para iOS |
 
 ## Licencia
 
