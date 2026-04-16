@@ -7,7 +7,7 @@ export type TaskPriority = 'low' | 'medium' | 'high';
  * Modelo Task — Representa una tarea en la aplicación.
  *
  * Incluye campos extendidos para soporte de categorías y prioridad.
- * Se persiste en @capacitor/preferences a través del StorageService.
+ * Se persiste a través del StorageService.
  */
 export interface Task {
   /** Identificador único generado con crypto.randomUUID() */

@@ -8,7 +8,7 @@ import { StorageService } from './storage.service';
  *
  * Proporciona gestión reactiva de tareas usando BehaviorSubject de RxJS
  * para actualizaciones en tiempo real en la UI, con almacenamiento
- * persistente vía @capacitor/preferences a través del StorageService.
+ * persistente a través del StorageService.
  *
  * @providedIn 'root' — Servicio singleton disponible en toda la app.
  */

@@ -4,7 +4,7 @@
  * Las categorías permiten organizar las tareas por tipo o contexto.
  * Cada categoría tiene un color y un icono para identificación visual rápida.
  *
- * Se persisten en @capacitor/preferences a través del CategoryService.
+ * Se persisten a través del CategoryService.
  */
 export interface Category {
   /** Identificador único generado con crypto.randomUUID() */

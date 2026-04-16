@@ -1,7 +1,6 @@
 {
   "name": "TaskFlow",
   "integrations": {
-    "capacitor": {},
     "cordova": {}
   },
   "type": "angular"

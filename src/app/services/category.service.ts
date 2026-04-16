@@ -8,7 +8,7 @@ import { StorageService } from './storage.service';
  *
  * Proporciona operaciones para crear, leer, actualizar y eliminar categorías.
  * Usa BehaviorSubject para actualizaciones reactivas en la UI y persiste
- * los datos vía @capacitor/preferences.
+ * los datos de manera persistente a través del StorageService.
  *
  * @providedIn 'root' — Servicio singleton disponible en toda la app.
  */
