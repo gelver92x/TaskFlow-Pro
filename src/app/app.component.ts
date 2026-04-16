@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { TranslateService } from '@ngx-translate/core';
-import { Preferences } from '@capacitor/preferences';
+import { StorageService } from './services/storage.service';
 import { FeatureFlagService } from './services/feature-flag.service';
 
 /**
@@ -24,6 +24,7 @@ import { FeatureFlagService } from './services/feature-flag.service';
 export class AppComponent implements OnInit {
   constructor(
     private translate: TranslateService,
+    private storageService: StorageService,
     private featureFlagService: FeatureFlagService
   ) {}
 
@@ -34,7 +35,7 @@ export class AppComponent implements OnInit {
     // Configurar idioma
     this.translate.setDefaultLang('en');
 
-    const { value: savedLang } = await Preferences.get({ key: 'taskflow_language' });
+    const savedLang = await this.storageService.get<string>('taskflow_language');
     if (savedLang) {
       this.translate.use(savedLang);
     } else {

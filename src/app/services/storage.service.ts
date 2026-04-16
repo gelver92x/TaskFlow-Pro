@@ -1,86 +1,85 @@
 import { Injectable } from '@angular/core';
-import { Preferences } from '@capacitor/preferences';
+
+declare const NativeStorage: any;
 
 /**
- * StorageService — Abstraction layer over @capacitor/preferences.
+ * StorageService — Capa de abstracción para almacenamiento persistente.
  *
- * This service provides typed, async key-value storage for the application.
- * It wraps the Capacitor Preferences API to handle JSON serialization
- * and deserialization transparently.
+ * Utiliza NativeStorage (plugin Cordova) cuando está disponible en entorno
+ * nativo, con fallback automático a localStorage para desarrollo web.
  *
- * IMPORTANT: Never use localStorage directly — this is the only
- * approved storage mechanism per project guidelines.
+ * En dispositivos nativos, NativeStorage usa SharedPreferences (Android)
+ * y UserDefaults (iOS), que están protegidos contra limpieza de caché.
  *
- * All methods are asynchronous because Capacitor Preferences
- * uses native storage on devices (SharedPreferences on Android,
- * UserDefaults on iOS).
- *
- * @providedIn 'root' — Singleton service available application-wide.
- *
- * @example
- * ```typescript
- * // Save data
- * await this.storageService.set('my_key', { name: 'value' });
- *
- * // Retrieve data
- * const data = await this.storageService.get<MyType>('my_key');
- *
- * // Remove data
- * await this.storageService.remove('my_key');
- * ```
+ * @providedIn 'root' — Servicio singleton disponible en toda la aplicación.
  */
 @Injectable({ providedIn: 'root' })
 export class StorageService {
   /**
-   * Retrieves a value from storage by key.
-   * Returns null if the key does not exist or the value cannot be parsed.
-   *
-   * @template T - The expected type of the stored value.
-   * @param key - The storage key to look up.
-   * @returns A promise resolving to the parsed value or null.
+   * Detecta si NativeStorage (Cordova) está disponible.
+   */
+  private get isNative(): boolean {
+    return typeof NativeStorage !== 'undefined';
+  }
+
+  /**
+   * Recupera un valor del almacenamiento por clave.
+   * Retorna null si la clave no existe o el valor no se puede parsear.
    */
   async get<T>(key: string): Promise<T | null> {
-    const { value } = await Preferences.get({ key });
-
-    if (value === null) {
-      return null;
-    }
-
     try {
-      return JSON.parse(value) as T;
+      if (this.isNative) {
+        const value = await new Promise<string>((resolve, reject) => {
+          NativeStorage.getItem(key, resolve, reject);
+        });
+        return JSON.parse(value) as T;
+      } else {
+        const value = localStorage.getItem(key);
+        if (value === null) return null;
+        return JSON.parse(value) as T;
+      }
     } catch {
       return null;
     }
   }
 
   /**
-   * Stores a value in storage, serialized as JSON.
-   *
-   * @template T - The type of the value to store.
-   * @param key - The storage key.
-   * @param value - The value to serialize and store.
+   * Almacena un valor serializado como JSON.
    */
   async set<T>(key: string, value: T): Promise<void> {
-    await Preferences.set({
-      key,
-      value: JSON.stringify(value),
-    });
+    const serialized = JSON.stringify(value);
+    if (this.isNative) {
+      await new Promise<void>((resolve, reject) => {
+        NativeStorage.setItem(key, serialized, resolve, reject);
+      });
+    } else {
+      localStorage.setItem(key, serialized);
+    }
   }
 
   /**
-   * Removes a single key-value pair from storage.
-   *
-   * @param key - The storage key to remove.
+   * Elimina un par clave-valor del almacenamiento.
    */
   async remove(key: string): Promise<void> {
-    await Preferences.remove({ key });
+    if (this.isNative) {
+      await new Promise<void>((resolve, reject) => {
+        NativeStorage.remove(key, resolve, reject);
+      });
+    } else {
+      localStorage.removeItem(key);
+    }
   }
 
   /**
-   * Clears all data from storage.
-   * Use with caution — this removes ALL stored data for the app.
+   * Limpia todos los datos del almacenamiento.
    */
   async clear(): Promise<void> {
-    await Preferences.clear();
+    if (this.isNative) {
+      await new Promise<void>((resolve, reject) => {
+        NativeStorage.clear(resolve, reject);
+      });
+    } else {
+      localStorage.clear();
+    }
   }
 }

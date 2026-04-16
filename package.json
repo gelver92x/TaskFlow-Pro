@@ -53,6 +53,11 @@
     "@types/jasmine": "~5.1.0",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
+    "cordova-android": "^13.0.0",
+    "cordova-ios": "^7.1.0",
+    "cordova-plugin-nativestorage": "^2.3.2",
+    "cordova-plugin-splashscreen": "^6.0.2",
+    "cordova-plugin-statusbar": "^4.0.0",
     "eslint": "^9.16.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsdoc": "^48.2.1",
@@ -66,5 +71,16 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.9.0"
   },
-  "description": "TaskFlow - A mobile task management app built with Ionic, Angular, and Capacitor"
+  "description": "TaskFlow - A mobile task management app built with Ionic, Angular, and Capacitor",
+  "cordova": {
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "plugins": {
+      "cordova-plugin-nativestorage": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-splashscreen": {}
+    }
+  }
 }
