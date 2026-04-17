@@ -158,6 +158,7 @@ interface FeatureFlagConfig {
 - **Node.js** >= 18.x
 - **npm** >= 9.x
 - **Cordova CLI** (`npm install -g cordova`)
+- **ios-deploy** (`npm install -g ios-deploy` - requerido para emular y compilar en macOS para iOS)
 - **Ionic CLI** (opcional, vía npx)
 
 Para compilación nativa:
@@ -266,7 +267,10 @@ Para compilar en **Android Studio**:
 # Compilar assets web
 npx ng build --configuration production
 
-# Compilar proyecto iOS
+# Ejecutar en simulador iOS (asegúrate de usar un target que tengas instalado)
+cordova emulate ios --target="iPhone-17-Pro"
+
+# O solo compilar proyecto iOS
 cordova build ios
 
 # Abrir en Xcode

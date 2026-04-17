@@ -31,6 +31,8 @@
         <allow-intent href="itms-apps:*" />
         <preference name="WKWebViewOnly" value="true" />
         <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+        <preference name="scheme" value="app" />
+        <preference name="hostname" value="localhost" />
     </platform>
     <plugin name="cordova-plugin-nativestorage" spec="^2.3.2" />
     <plugin name="cordova-plugin-statusbar" spec="^4.0.0" />

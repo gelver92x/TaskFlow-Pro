@@ -14,6 +14,7 @@ import {
   RouteReuseStrategy,
   provideRouter,
   withPreloading,
+  withHashLocation,
   PreloadAllModules,
 } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
@@ -28,7 +29,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
-    provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideRouter(routes, withPreloading(PreloadAllModules), withHashLocation()),
     provideHttpClient(),
     provideTranslateService({
       defaultLanguage: 'en',
