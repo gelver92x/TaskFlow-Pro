@@ -9,18 +9,24 @@
   <ion-list>
     <ion-item><ion-input [(ngModel)]="taskTitle" [label]="'modal.taskTitle' | translate" labelPlacement="floating" type="text" [maxlength]="100" [placeholder]="'modal.taskPlaceholder' | translate" (keyup.enter)="save()" [autofocus]="true"></ion-input></ion-item>
     <ion-item><ion-textarea [(ngModel)]="taskDescription" [label]="'modal.description' | translate" labelPlacement="floating" [placeholder]="'modal.descriptionPlaceholder' | translate" [rows]="3" [maxlength]="500"></ion-textarea></ion-item>
-    @if (categories$ | async; as categories) {
-      <ion-item><ion-select [(ngModel)]="selectedCategoryId" [label]="'modal.category' | translate" labelPlacement="floating" [placeholder]="'modal.selectCategory' | translate" interface="popover">
-        <ion-select-option [value]="null">{{ 'modal.noCategory' | translate }}</ion-select-option>
-        @for (cat of categories; track cat.id) { <ion-select-option [value]="cat.id">{{ cat.name }}</ion-select-option> }
-      </ion-select></ion-item>
+    <!-- Selector de categoría — controlado por feature flag categories_enabled -->
+    @if (categoriesEnabled$ | async) {
+      @if (categories$ | async; as categories) {
+        <ion-item><ion-select [(ngModel)]="selectedCategoryId" [label]="'modal.category' | translate" labelPlacement="floating" [placeholder]="'modal.selectCategory' | translate" interface="popover">
+          <ion-select-option [value]="null">{{ 'modal.noCategory' | translate }}</ion-select-option>
+          @for (cat of categories; track cat.id) { <ion-select-option [value]="cat.id">{{ cat.name }}</ion-select-option> }
+        </ion-select></ion-item>
+      }
     }
-    <ion-item lines="none"><ion-label position="stacked">{{ 'modal.priority' | translate }}</ion-label></ion-item>
-    <ion-segment [(ngModel)]="selectedPriority" class="priority-segment">
-      <ion-segment-button value="low"><ion-label>{{ 'modal.low' | translate }}</ion-label></ion-segment-button>
-      <ion-segment-button value="medium"><ion-label>{{ 'modal.medium' | translate }}</ion-label></ion-segment-button>
-      <ion-segment-button value="high"><ion-label>{{ 'modal.high' | translate }}</ion-label></ion-segment-button>
-    </ion-segment>
+    <!-- Selector de prioridad — controlado por feature flag priorities_enabled -->
+    @if (prioritiesEnabled$ | async) {
+      <ion-item lines="none"><ion-label position="stacked">{{ 'modal.priority' | translate }}</ion-label></ion-item>
+      <ion-segment [(ngModel)]="selectedPriority" class="priority-segment">
+        <ion-segment-button value="low"><ion-label>{{ 'modal.low' | translate }}</ion-label></ion-segment-button>
+        <ion-segment-button value="medium"><ion-label>{{ 'modal.medium' | translate }}</ion-label></ion-segment-button>
+        <ion-segment-button value="high"><ion-label>{{ 'modal.high' | translate }}</ion-label></ion-segment-button>
+      </ion-segment>
+    }
   </ion-list>
   @if (submitted && !taskTitle.trim()) { <ion-text color="danger"><p class="validation-error">{{ 'modal.titleRequired' | translate }}</p></ion-text> }
 </ion-content>

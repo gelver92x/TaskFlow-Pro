@@ -1,18 +1,20 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NgClass, NgStyle } from '@angular/common';
+import { NgClass, NgStyle, AsyncPipe } from '@angular/common';
 import {
   IonItem, IonLabel, IonCheckbox, IonItemSliding,
   IonItemOptions, IonItemOption, IonIcon, IonNote, IonBadge,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { trashOutline } from 'ionicons/icons';
+import { Observable } from 'rxjs';
 import { Task } from '../../../../models/task.model';
 import { CategoryService } from '../../../../services/category.service';
+import { FeatureFlagService } from '../../../../services/feature-flag.service';
 
 @Component({
   selector: 'app-task-item',
   standalone: true,
-  imports: [NgClass, NgStyle, IonItem, IonLabel, IonCheckbox, IonItemSliding, IonItemOptions, IonItemOption, IonIcon, IonNote, IonBadge],
+  imports: [NgClass, NgStyle, AsyncPipe, IonItem, IonLabel, IonCheckbox, IonItemSliding, IonItemOptions, IonItemOption, IonIcon, IonNote, IonBadge],
   templateUrl: './task-item.component.html',
   styleUrls: ['./task-item.component.scss'],
 })
@@ -21,7 +23,19 @@ export class TaskItemComponent {
   @Output() toggleComplete = new EventEmitter<string>();
   @Output() deleteTask = new EventEmitter<string>();
 
-  constructor(private categoryService: CategoryService) { addIcons({ trashOutline }); }
+  /** Feature flags reactivos */
+  prioritiesEnabled$: Observable<boolean>;
+  categoriesEnabled$: Observable<boolean>;
+
+  constructor(
+    private categoryService: CategoryService,
+    private featureFlagService: FeatureFlagService
+  ) {
+    addIcons({ trashOutline });
+    this.prioritiesEnabled$ = this.featureFlagService.prioritiesEnabled$;
+    this.categoriesEnabled$ = this.featureFlagService.categoriesEnabled$;
+  }
+
   onToggle(): void { this.toggleComplete.emit(this.task.id); }
   onDelete(): void { this.deleteTask.emit(this.task.id); }
 

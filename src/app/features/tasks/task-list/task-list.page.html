@@ -13,16 +13,19 @@
     <ion-searchbar [placeholder]="'tasks.search' | translate" [debounce]="300"
       (ionInput)="onSearchChange($any($event))"></ion-searchbar>
   </ion-toolbar>
-  @if (categories$ | async; as categories) {
-    @if (categories.length > 0) {
-      <ion-toolbar class="segment-toolbar">
-        <ion-segment [value]="selectedCategoryId" (ionChange)="onCategoryFilter($any($event))" [scrollable]="true">
-          <ion-segment-button value="all"><ion-label>{{ 'tasks.all' | translate }}</ion-label></ion-segment-button>
-          @for (cat of categories; track cat.id) {
-            <ion-segment-button [value]="cat.id"><ion-label>{{ cat.name }}</ion-label></ion-segment-button>
-          }
-        </ion-segment>
-      </ion-toolbar>
+  <!-- Filtro de categorías — controlado por feature flag -->
+  @if (categoriesEnabled$ | async) {
+    @if (categories$ | async; as categories) {
+      @if (categories.length > 0) {
+        <ion-toolbar class="segment-toolbar">
+          <ion-segment [value]="selectedCategoryId" (ionChange)="onCategoryFilter($any($event))" [scrollable]="true">
+            <ion-segment-button value="all"><ion-label>{{ 'tasks.all' | translate }}</ion-label></ion-segment-button>
+            @for (cat of categories; track cat.id) {
+              <ion-segment-button [value]="cat.id"><ion-label>{{ cat.name }}</ion-label></ion-segment-button>
+            }
+          </ion-segment>
+        </ion-toolbar>
+      }
     }
   }
 </ion-header>
@@ -30,6 +33,12 @@
   <ion-refresher slot="fixed" (ionRefresh)="onRefresh($any($event))">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <!-- Banner informativo — controlado por feature flag -->
+  @if (bannerMessage$ | async; as bannerMsg) {
+    <div class="feature-banner">
+      <ion-text color="warning"><p>{{ bannerMsg }}</p></ion-text>
+    </div>
+  }
   @if (filteredTasks$ | async; as tasks) {
     @if (tasks.length > 0) {
       <ion-list class="task-list" lines="none">

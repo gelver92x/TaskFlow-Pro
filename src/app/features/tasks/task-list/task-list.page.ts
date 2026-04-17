@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable as RxObservable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonList,
@@ -10,6 +11,7 @@ import {
 import { addIcons } from 'ionicons';
 import { addOutline, checkmarkDoneOutline } from 'ionicons/icons';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FeatureFlagService } from '../../../services/feature-flag.service';
 import { Observable, Subscription, combineLatest, map, BehaviorSubject } from 'rxjs';
 import { Task } from '../../../models/task.model';
 import { Category } from '../../../models/category.model';
@@ -28,6 +30,7 @@ import { TaskFormModalComponent } from '../components/task-form-modal/task-form-
     IonSegment, IonSegmentButton, IonLabel,
     TranslateModule, TaskItemComponent,
   ],
+  // Note: IonNote is already available via TaskItemComponent
   templateUrl: './task-list.page.html',
   styleUrls: ['./task-list.page.scss'],
 })
@@ -36,6 +39,11 @@ export class TaskListPage implements OnInit, OnDestroy {
   categories$: Observable<Category[]>;
   pendingCount = 0;
   selectedCategoryId = 'all';
+
+  /** Feature flags reactivos */
+  categoriesEnabled$: RxObservable<boolean>;
+  bannerMessage$: RxObservable<string>;
+
   private searchTerm$ = new BehaviorSubject<string>('');
   private countSub?: Subscription;
 
@@ -44,10 +52,13 @@ export class TaskListPage implements OnInit, OnDestroy {
     private categoryService: CategoryService,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private featureFlagService: FeatureFlagService
   ) {
     addIcons({ addOutline, checkmarkDoneOutline });
     this.categories$ = this.categoryService.categories$;
+    this.categoriesEnabled$ = this.featureFlagService.categoriesEnabled$;
+    this.bannerMessage$ = this.featureFlagService.bannerMessage$;
   }
 
   async ngOnInit(): Promise<void> {

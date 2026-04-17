@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { Category } from '../../../../models/category.model';
 import { TaskPriority } from '../../../../models/task.model';
 import { CategoryService } from '../../../../services/category.service';
+import { FeatureFlagService } from '../../../../services/feature-flag.service';
 
 @Component({
   selector: 'app-task-form-modal',
@@ -27,7 +28,18 @@ export class TaskFormModalComponent implements OnInit {
   submitted = false;
   categories$!: Observable<Category[]>;
 
-  constructor(private modalCtrl: ModalController, private categoryService: CategoryService) {}
+  /** Feature flags reactivos */
+  categoriesEnabled$: Observable<boolean>;
+  prioritiesEnabled$: Observable<boolean>;
+
+  constructor(
+    private modalCtrl: ModalController,
+    private categoryService: CategoryService,
+    private featureFlagService: FeatureFlagService
+  ) {
+    this.categoriesEnabled$ = this.featureFlagService.categoriesEnabled$;
+    this.prioritiesEnabled$ = this.featureFlagService.prioritiesEnabled$;
+  }
 
   async ngOnInit(): Promise<void> {
     await this.categoryService.loadCategories();

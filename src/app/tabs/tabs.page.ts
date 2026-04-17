@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   IonTabs,
   IonTabBar,
@@ -10,6 +10,7 @@ import {
 import { addIcons } from 'ionicons';
 import { listOutline, pricetagsOutline, settingsOutline } from 'ionicons/icons';
 import { TranslateModule } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { FeatureFlagService } from '../services/feature-flag.service';
 
 /**
@@ -17,8 +18,9 @@ import { FeatureFlagService } from '../services/feature-flag.service';
  *
  * Implementa `ion-tabs` + `ion-tab-bar` como OBLIGATORIO según skill ionic-skills.
  *
- * La pestaña de categorías se muestra/oculta según el feature flag
- * `categories_enabled` obtenido de Firebase Remote Config.
+ * La pestaña de categorías se muestra/oculta reactivamente según el feature flag
+ * `categories_enabled` obtenido de Firebase Remote Config. Los cambios en Remote
+ * Config se reflejan automáticamente sin necesidad de reiniciar la app.
  *
  * @standalone — Componente independiente sin NgModule.
  */
@@ -26,7 +28,7 @@ import { FeatureFlagService } from '../services/feature-flag.service';
   selector: 'app-tabs',
   standalone: true,
   imports: [
-    NgIf,
+    AsyncPipe,
     IonTabs,
     IonTabBar,
     IonTabButton,
@@ -38,11 +40,11 @@ import { FeatureFlagService } from '../services/feature-flag.service';
   styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage {
-  /** Si la pestaña de categorías debe mostrarse */
-  showCategories: boolean;
+  /** Observable reactivo: si la pestaña de categorías debe mostrarse */
+  showCategories$: Observable<boolean>;
 
   constructor(private featureFlagService: FeatureFlagService) {
     addIcons({ listOutline, pricetagsOutline, settingsOutline });
-    this.showCategories = this.featureFlagService.isEnabled('categories_enabled');
+    this.showCategories$ = this.featureFlagService.categoriesEnabled$;
   }
 }
