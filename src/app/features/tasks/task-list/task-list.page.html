@@ -42,8 +42,8 @@
   @if (filteredTasks$ | async; as tasks) {
     @if (tasks.length > 0) {
       <ion-list class="task-list" lines="none">
-        @for (task of tasks; track task.id) {
-          <app-task-item [task]="task" (toggleComplete)="onToggleComplete($event)" (deleteTask)="onDeleteTask($event)"></app-task-item>
+        @for (task of tasks; track task.id; let isFirst = $first) {
+          <app-task-item [task]="task" [showSwipeHint]="showTaskHint && isFirst" (toggleComplete)="onToggleComplete($event)" (deleteTask)="onDeleteTask($event)"></app-task-item>
         }
       </ion-list>
     } @else {

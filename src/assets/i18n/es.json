@@ -9,7 +9,11 @@
     "pending": "pendientes",
     "delete": "Eliminar",
     "deleteConfirm": "¿Estás seguro de que quieres eliminar esta tarea?",
-    "deleteTitle": "Eliminar Tarea"
+    "deleteTitle": "Eliminar Tarea",
+    "timeNow": "Ahora",
+    "timeMinutes": "hace {{n}}m",
+    "timeHours": "hace {{n}}h",
+    "timeDays": "hace {{n}}d"
   },
   "categories": {
     "title": "Categorías",

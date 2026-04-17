@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Category } from '../models/category.model';
 import { StorageService } from './storage.service';
+import { addIcons } from 'ionicons';
+import { briefcaseOutline, personOutline, cartOutline, alertCircleOutline } from 'ionicons/icons';
 
 /**
  * CategoryService — Gestión CRUD de categorías.
@@ -25,7 +27,9 @@ export class CategoryService {
     { name: 'Urgente', color: '#EF4444', icon: 'alert-circle-outline' },
   ];
 
-  constructor(private storageService: StorageService) {}
+  constructor(private storageService: StorageService) {
+    addIcons({ briefcaseOutline, personOutline, cartOutline, alertCircleOutline });
+  }
 
   /** Carga las categorías del almacenamiento. */
   async loadCategories(): Promise<void> {

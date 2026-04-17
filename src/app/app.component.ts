@@ -46,6 +46,15 @@ export class AppComponent implements OnInit {
       );
     }
 
+    // Configurar tema inicial
+    const savedTheme = await this.storageService.get<string>('taskflow_theme');
+    document.body.classList.remove('dark', 'light');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark');
+    } else if (savedTheme === 'light') {
+      document.body.classList.add('light');
+    }
+
     // Inicializar feature flags
     await this.featureFlagService.initialize();
   }

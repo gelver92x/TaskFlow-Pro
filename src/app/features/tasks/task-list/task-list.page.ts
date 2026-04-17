@@ -17,6 +17,7 @@ import { Task } from '../../../models/task.model';
 import { Category } from '../../../models/category.model';
 import { TaskService } from '../../../services/task.service';
 import { CategoryService } from '../../../services/category.service';
+import { SwipeHintService } from '../../../services/swipe-hint.service';
 import { TaskItemComponent } from '../components/task-item/task-item.component';
 import { TaskFormModalComponent } from '../components/task-form-modal/task-form-modal.component';
 
@@ -44,6 +45,8 @@ export class TaskListPage implements OnInit, OnDestroy {
   categoriesEnabled$: RxObservable<boolean>;
   bannerMessage$: RxObservable<string>;
 
+  showTaskHint = false;
+
   private searchTerm$ = new BehaviorSubject<string>('');
   private countSub?: Subscription;
 
@@ -53,7 +56,8 @@ export class TaskListPage implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private translate: TranslateService,
-    private featureFlagService: FeatureFlagService
+    private featureFlagService: FeatureFlagService,
+    private swipeHintService: SwipeHintService
   ) {
     addIcons({ addOutline, checkmarkDoneOutline });
     this.categories$ = this.categoryService.categories$;
@@ -62,6 +66,8 @@ export class TaskListPage implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    this.showTaskHint = await this.swipeHintService.shouldShowTaskHint();
+    
     await this.taskService.loadTasks();
     await this.categoryService.loadCategories();
     this.filteredTasks$ = combineLatest([
@@ -85,6 +91,10 @@ export class TaskListPage implements OnInit, OnDestroy {
     this.countSub = this.taskService.tasks$.subscribe(() => {
       this.pendingCount = this.taskService.getTaskCount().pending;
     });
+
+    if (this.showTaskHint) {
+      await this.swipeHintService.markTaskHintShown();
+    }
   }
 
   ngOnDestroy(): void { this.countSub?.unsubscribe(); }

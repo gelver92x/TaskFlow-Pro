@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { AsyncPipe, NgStyle } from '@angular/common';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel,
@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { Category } from '../../../models/category.model';
 import { CategoryService } from '../../../services/category.service';
 import { TaskService } from '../../../services/task.service';
+import { SwipeHintService } from '../../../services/swipe-hint.service';
 import { CategoryFormModalComponent } from '../components/category-form-modal/category-form-modal.component';
 
 @Component({
@@ -19,12 +20,41 @@ import { CategoryFormModalComponent } from '../components/category-form-modal/ca
   imports: [AsyncPipe, NgStyle, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonIcon, IonItemSliding, IonItemOptions, IonItemOption, IonFab, IonFabButton, IonBadge, IonText, TranslateModule],
   templateUrl: './category-list.page.html', styleUrls: ['./category-list.page.scss'],
 })
-export class CategoryListPage implements OnInit {
+export class CategoryListPage implements OnInit, AfterViewInit {
   categories$!: Observable<Category[]>;
-  constructor(private categoryService: CategoryService, private taskService: TaskService, private modalCtrl: ModalController, private alertCtrl: AlertController, private translate: TranslateService) {
+  @ViewChildren(IonItemSliding) slidingItems!: QueryList<IonItemSliding>;
+
+  constructor(
+    private categoryService: CategoryService, 
+    private taskService: TaskService, 
+    private modalCtrl: ModalController, 
+    private alertCtrl: AlertController, 
+    private translate: TranslateService,
+    private swipeHintService: SwipeHintService
+  ) {
     addIcons({ addOutline, createOutline, trashOutline });
   }
+
   async ngOnInit(): Promise<void> { await this.categoryService.loadCategories(); this.categories$ = this.categoryService.categories$; }
+  
+  ngAfterViewInit(): void {
+    this.slidingItems.changes.subscribe(async (items: QueryList<IonItemSliding>) => {
+      const showHint = await this.swipeHintService.shouldShowCategoryHint();
+      if (showHint && items.length > 0) {
+        await this.swipeHintService.markCategoryHintShown();
+        setTimeout(async () => {
+          const firstItem = items.first;
+          if (firstItem) {
+            await firstItem.open('end');
+            setTimeout(async () => {
+              await firstItem.close();
+            }, 1500);
+          }
+        }, 800);
+      }
+    });
+  }
+
   getTaskCount(categoryId: string): number { return this.taskService.getTasksByCategory(categoryId).length; }
 
   async openAddModal(): Promise<void> {

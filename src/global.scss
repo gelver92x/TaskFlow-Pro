@@ -63,3 +63,59 @@ ion-item {
   background-color: var(--ion-color-medium);
   border-radius: 4px;
 }
+
+/* ── Animaciones y UX Premium ── */
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceEmpty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes strikethrough {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.empty-state-icon {
+  animation: bounceEmpty 3s ease-in-out infinite;
+}
+
+ion-checkbox {
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+ion-checkbox:active { transform: scale(0.9); }
+
+.text-strikethrough {
+  text-decoration: none !important;
+  position: relative;
+  opacity: 0.6;
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+.text-strikethrough::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  transform-origin: left;
+  animation: strikethrough 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Staggered load animation */
+ion-item-sliding {
+  animation: slideInUp 0.4s ease-out backwards;
+}
+app-task-item:nth-child(1) ion-item-sliding, ion-list ion-item-sliding:nth-child(1) { animation-delay: 0.05s; }
+app-task-item:nth-child(2) ion-item-sliding, ion-list ion-item-sliding:nth-child(2) { animation-delay: 0.1s; }
+app-task-item:nth-child(3) ion-item-sliding, ion-list ion-item-sliding:nth-child(3) { animation-delay: 0.15s; }
+app-task-item:nth-child(4) ion-item-sliding, ion-list ion-item-sliding:nth-child(4) { animation-delay: 0.2s; }
+app-task-item:nth-child(5) ion-item-sliding, ion-list ion-item-sliding:nth-child(5) { animation-delay: 0.25s; }
+app-task-item:nth-child(6) ion-item-sliding, ion-list ion-item-sliding:nth-child(n+6) { animation-delay: 0.3s; }

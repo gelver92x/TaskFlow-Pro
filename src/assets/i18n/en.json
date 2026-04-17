@@ -9,7 +9,11 @@
     "pending": "pending",
     "delete": "Delete",
     "deleteConfirm": "Are you sure you want to delete this task?",
-    "deleteTitle": "Delete Task"
+    "deleteTitle": "Delete Task",
+    "timeNow": "Just now",
+    "timeMinutes": "{{n}}m ago",
+    "timeHours": "{{n}}h ago",
+    "timeDays": "{{n}}d ago"
   },
   "categories": {
     "title": "Categories",

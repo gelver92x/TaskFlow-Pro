@@ -14,7 +14,9 @@
             <ion-badge class="category-badge" [ngStyle]="{ 'background-color': getCategoryColor() }">{{ catName }}</ion-badge>
           }
         }
-        <ion-note color="medium">{{ getRelativeTime() }}</ion-note>
+        @if (getRelativeTime(); as rt) {
+          <ion-note color="medium">{{ rt.key | translate: rt.params }}</ion-note>
+        }
       </div>
     </ion-label>
   </ion-item>
