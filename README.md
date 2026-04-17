@@ -4,6 +4,10 @@ Aplicación móvil de gestión de tareas con categorías, búsqueda avanzada y f
 
 Esta es la versión extendida (fork) que agrega funcionalidades avanzadas sobre la [app base](https://github.com/gelver92x/TaskFlow-Ionic/tree/main).
 
+> **Nota para la Evaluación Técnica:**  
+> - El **video de demostración** y el documento con las **respuestas de la prueba** se encuentran disponibles en esta [carpeta de Google Drive](https://drive.google.com/drive/u/4/folders/1OF6yIN47HiDvwPP_DBQx0-4X9SRvAbLJ).  
+> - Los archivos compilados (**APK** para Android e **IPA** para iOS) solicitados están alojados en la sección de [Releases](https://github.com/gelver92x/TaskFlow-Pro/releases) de este repositorio.
+
 ## Funcionalidades
 
 ### Tareas
